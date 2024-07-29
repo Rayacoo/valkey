@@ -482,6 +482,18 @@ start_server {tags {"hash"}} {
         lappend rv [r hexists bighash nokey]
     } {1 0 1 0}
 
+
+    test {HMEXISTS} {
+        set rv {}
+        set k1 [lindex [array names smallhash *] 0]
+        set k2 [lindex [array names smallhash *] 1]
+        lappend rv [r hmexists smallhash $k1 nokey $k2 nokey]
+        set k1 [lindex [array names bighash *] 0]
+        set k2 [lindex [array names bighash *] 1]
+        lappend rv [r hmexists bighash nokey $k1 nokey $k2]
+    } {{1 0 1 0} {0 1 0 1}}
+
+
     test {Is a ziplist encoded Hash promoted on big payload?} {
         r config set hash-max-listpack-value 64
         r hset smallhash foo [string repeat a 1024]

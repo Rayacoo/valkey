@@ -865,6 +865,20 @@ void hexistsCommand(client *c) {
     addReply(c, hashTypeExists(o, c->argv[2]->ptr) ? shared.cone : shared.czero);
 }
 
+void hmexistsCommand(client *c) {
+    robj *o;
+    if((o = lookupKeyReadOrReply(c, c->argv[1], shared.czero)) == NULL || checkType(c, o, OBJ_HASH)) return;
+
+    addReplyArrayLen(c, c->argc - 2);
+    for(int j = 2; j < c->argc; j++) {
+        if(hashTypeExists(o, c->argv[j]->ptr)) {
+            addReply(c, shared.cone);
+        } else {
+            addReply(c, shared.czero);
+        }
+    }
+}
+
 void hscanCommand(client *c) {
     robj *o;
     unsigned long long cursor;

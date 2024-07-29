@@ -3839,6 +3839,7 @@ void hkeysCommand(client *c);
 void hvalsCommand(client *c);
 void hgetallCommand(client *c);
 void hexistsCommand(client *c);
+void hmexistsCommand(client *c);
 void hscanCommand(client *c);
 void hrandfieldCommand(client *c);
 void configSetCommand(client *c);
